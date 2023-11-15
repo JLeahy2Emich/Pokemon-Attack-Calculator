@@ -5,6 +5,7 @@
     </head>
     <body>
         <form action="PkmnAtkCalc.php" method="post">
+            <!--Select the Attacking type-->
             <select name="atktype" id="atktype">
                 <option value="normal">Normal</option>
                 <option value="fighting">Fighting</option>
@@ -25,6 +26,7 @@
                 <option value="dark">Dark</option>
                 <option value="fairy">Fairy</option>
             </select>
+            <!--Select the Defending type-->
             <select name="deftype1" id="deftype1">
                 <option value="0">Normal</option>
                 <option value="1">Fighting</option>
@@ -45,6 +47,7 @@
                 <option value="16">Dark</option>
                 <option value="17">Fairy</option>
             </select>
+            <!--Select the second Defending type. If no 2nd type, none is automatically selected.-->
             <select name="deftype2" id="deftype2">
                 <option value="18">None</option>
                 <option value="0">Normal</option>
@@ -68,6 +71,11 @@
                 <option value="15">Dragon</option>
                 <option value="16">Dark</option>
                 <option value="17">Fairy</option>
+            </select>
+            <!--Selects whether you are Attacking or Defending-->
+            <select name="atkdef" id="atkdef">
+                <option value="0">Attacking</option>
+                <option value="1">Defending</option>
             </select>
             <input type="submit" value="Calculate" />
         </form>
