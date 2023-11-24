@@ -1,9 +1,13 @@
 <?php
+
+require("PkmnHeader.php");
+
 $atktype = $_POST["atktype"];
 $deftype1 = $_POST["deftype1"];
 $deftype2 = $_POST["deftype2"];
 $atkdef = $_POST["atkdef"];
 
+//This is literally the type effectiveness table in a 2D array
 $types = array (
      //nml fgt fly psn grd rck bug gst stl fir wtr grs elc psy ice drg drk fry none
 array ( 1 , 1 , 1 , 1 , 1 ,.5 , 1 , 0 ,.5 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1), //Normal
@@ -29,6 +33,7 @@ array ( 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 
 
     //Math for Attacking
     if($atkdef == 0){
+        //Calculates the damage multiplier
         $damage = 0;
         if($atktype == "normal"){
             $damage = $types[0][$deftype1] * $types[0][$deftype2];
@@ -84,7 +89,28 @@ array ( 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 
         if($atktype == "fairy"){
             $damage = $types[17][$deftype1] * $types[17][$deftype2];
         }
-        echo "<p>The damage multiplier is: ".$damage."</p>";
+
+        echo "<p style='font-size:50px';>The damage multiplier is: </p>";
+        //Changes color of text for readability
+        if($damage == 0){
+            echo "<p style='color:rgb(202, 2, 144);font-family:Georgia;font-size:100px'>".$damage."</p>";
+        }
+        if($damage == 0.25){
+            echo "<p style='color:rgb(0,24,100);font-family:Georgia;font-size:100px'>".$damage."</p>";
+        }
+        if($damage == 0.5){
+            echo "<p style='color:rgb(255,0,0);font-family:Georgia;font-size:100px'>".$damage."</p>";
+        }
+        if($damage == 1){
+            echo "<p style='color:rgb(0,0,0);font-family:Georgia;font-size:100px'>".$damage."</p>";
+        }
+        if($damage == 2){
+            echo "<p style='color:rgb(33, 164, 1);font-family:Georgia;font-size:100px'>".$damage."</p>";
+        }
+        if($damage == 4){
+            echo "<p style='color:rgb(8,69,0);font-family:Georgia;font-size:100px'>".$damage."</p>";
+        }
+
     }
     
     //Math for Defending
@@ -133,7 +159,10 @@ array ( 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 
         if($deftype2 == 17){$deftypelabel2 = "Fairy";}
 
         for($i=0; $i<=17; $i++){
+            //Equation that checks if effective is != to 1
             $effective = $types[$i][$deftype1]*$types[$i][$deftype2];
+
+            //asigns labels to each of the types so they can be printed in the echo statments
             if($i==0){$effectivelabel = "Normal";}
             if($i==1){$effectivelabel = "Fighting";}
             if($i==2){$effectivelabel = "Flying";}
@@ -152,12 +181,36 @@ array ( 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 
             if($i==15){$effectivelabel = "Dragon";}
             if($i==16){$effectivelabel = "Dark";}
             if($i==17){$effectivelabel = "Fairy";}
-            if($effective!=1){
-                echo "<p>".$effectivelabel." type moves are ".$effective." effective against ".$deftypelabel1."</p>";
+
+            //Prints what types are effective/ineffective against the defending type(s)
+            if($effective==0.5 && $deftype2==18){
+                echo "<p style='color:rgb(255,0,0);font-family:Georgia;font-size:30px'>".$effectivelabel." type moves are ".$effective." times effective against ".$deftypelabel1. " types </p>";
             }
-            /*if($effective!=1 && $deftype2!=18){
-                echo "<p>".$effectivelabel." type moves are ".$effective." effective against ".$deftypelabel1." ".$deftypelabel2."</p>";
-            }*/
+            if($effective==2 && $deftype2==18){
+                echo "<p style='color:rgb(33, 164, 1);font-family:Georgia;font-size:30px'>".$effectivelabel." type moves are ".$effective." times effective against ".$deftypelabel1." types </p>";
+            }
+            if($effective==0 && $deftype2==18){
+                echo "<p style='color:rgb(202, 2, 144);font-family:Georgia;font-size:30px'>".$effectivelabel." type moves are ".$effective." times effective against ".$deftypelabel1." types </p>";
+            }
+
+            //Same as above but for dual types
+            if($effective==0 && $deftype2!=18){
+                echo "<p style='color:rgb(202, 2, 144);font-family:Georgia;font-size:30px'>".$effectivelabel." type moves are ".$effective." times effective against ".$deftypelabel1." ".$deftypelabel2." types </p>";
+            }
+            if($effective==0.25 && $deftype2!=18){
+                echo "<p style='color:rgb(0,24,100);font-family:Georgia;font-size:30px'>".$effectivelabel." type moves are ".$effective." times effective against ".$deftypelabel1." ".$deftypelabel2." types </p>";
+            }
+            if($effective==0.5 && $deftype2!=18){
+                echo "<p style='color:rgb(255,0,0);font-family:Georgia;font-size:30px'>".$effectivelabel." type moves are ".$effective." times effective against ".$deftypelabel1." ".$deftypelabel2." types </p>";
+            }
+            if($effective==2 && $deftype2!=18){
+                echo "<p style='color:rgb(33, 164, 1);font-family:Georgia;font-size:30px'>".$effectivelabel." type moves are ".$effective." times effective against ".$deftypelabel1." ".$deftypelabel2." types </p>";
+            }
+            if($effective==4 && $deftype2!=18){
+                echo "<p style='color:rgb(8,69,0);font-family:Georgia;font-size:30px'>".$effectivelabel." type moves are ".$effective." times effective against ".$deftypelabel1." ".$deftypelabel2." types </p>";
+            }
         }
+        echo "<p style='font-size:40px;'>Press the back button to go back to the calculator.</p>";
     }
+    require("PkmnFooter.php");
 ?>
